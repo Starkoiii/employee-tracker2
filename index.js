@@ -16,24 +16,37 @@ function questions() {
       viewAllDepartments();
     }
     if (response = 'view all roles') {
-      viewAllDepartments;
+      viewAllRoles();
     }
     if (response = 'view all employees') {
-
+      viewAllEmployees();
     }
     if (response = 'add a role') {
-
+      addRoll();
     }
     if (response = 'add an employee') {
-
+      addEmployee();
     }
     if (response = 'update employee role') {
-
+      updateEmployeeRole();
     }
     if (response = 'view all departments') {
-
+      viewAllDepartments();
     }
   });
 };
+viewAllDepartments();
+
+viewAllRoles();
+
+viewAllEmployees();
+
+addRoll();
+
+addEmployee();
+
+updateEmployeeRole();
+
+viewAllDepartments();
 
 questions();
