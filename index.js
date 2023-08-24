@@ -40,7 +40,15 @@ function viewAllDepartments() {
 };
 
 function viewAllRoles() {
-  
+  const viewAllRolesQuery = `SELECT roles.id AS id, roles.title AS title, department.department_name AS department, roles.salary AS salary
+  FROM department
+  JOIN roles ON department.id = roles.department_id;`;
+  // creates a query that views every role, with the respective department, and salary
+  connect.query(viewAllRolesQuery, function (err, results) {
+    if (err) throw err;
+    console.table(results);
+    displayMenu();
+  });
 };
 
 function viewAllEmployees() {
@@ -111,6 +119,49 @@ function addEmployee() {
 };
 
 function updateEmployeeRole() {
+  connect.query('Select * from employees', (err, data) => {
+    const eeList = data.map((emp) => ({
+      name: `${emp.first_name} ${emp.last_name}`,
+      value: emp.id
+    }));
+
+    connect.query('Select * from roles', (err, data) => {
+      const roleList = data.map((role) => ({
+        
+        name: `${role.title}`,
+        value: role.id
+      }));
+      inquirer.prompt([
+        
+        {
+          type: "list",
+          name: "eeName",
+          message: "Please select which employee you would like to update",
+          choices: eeList
+        },
+        {
+          type: "list",
+          name: "eeRole",
+          message: "Please select the employee's new role",
+          choices: roleList
+        },
+      ])
+        .then((response) => {
+          eeID = response.eeName;
+          eeRole = response.eeRole;
+          
+          const updateEmployee = `UPDATE employees
+          SET role_id = ?
+          WHERE id= ?`;
+
+          connect.query(updateEmployee, [eeRole, eeID], function (err, results) {
+            if (err) throw err;
+            console.log("Employee role updated successfully!");
+            displayMenu();
+          });
+        });
+    });
+  });
 
 };
 
