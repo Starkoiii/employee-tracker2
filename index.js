@@ -22,7 +22,7 @@ function questions() {
       viewAllEmployees();
     }
     if (response = 'add a role') {
-      addRoll();
+      addRole();
     }
     if (response = 'add an employee') {
       addEmployee();
@@ -35,18 +35,87 @@ function questions() {
     }
   });
 };
-viewAllDepartments();
+function viewAllDepartments() {
+  
+};
 
-viewAllRoles();
+function viewAllRoles() {
+  
+};
 
-viewAllEmployees();
+function viewAllEmployees() {
+  const viewAllEmployeesQuery = `SELECT employee.first_name AS first_name, employee.last_name AS last_name, role.title AS title, role.salary AS salary, department.name AS department
+  FROM role
+  JOIN department ON role.department = department.id
+  JOIN employee ON role.id = employee.id;`;
+  connect.query(viewAllEmployeesQuery , function(err , results){
+    if (err) throw err;
+    console.table(results);
+    questions()
+  })
+};
 
-addRoll();
+function addRole() {
+  
+};
 
-addEmployee();
+function addEmployee() {
+  connect.query("SELECT * from roles" , function(err , data){
+    const roleList = data.map((role) => ({
+      name: `${role.title}`,
+      value: role.id
+    }))
+    inquirer.prompt([
+      {
+        type: "input",
+        name: "firstName",
+        message: "Please enter employee first name!"
+      },
+      {
+        type: "input",
+        name: "lastName",
+        message: "Please enter employee last name!"
+      },
+      {
+        type: "list",
+        name: "roleID",
+        message: "Please select employee role!",
+        choices: roleList
+      },
+      {
+        type: "list",
+        name: "manager",
+        message: "Please select employee's manager!",
+        choices: ['Lebron James', 'Dwayne Wade']
+      },
+    ])
+    .then((response) => {
+      const firstName = response.firstName;
+      const lastName = response.lastName;
+      const role = response.role;
+      const manager = response.manager;
+      if (manager == "Lebron James") {
+        mgNum = 1;
+      } else if (manager == "Dwayne Wade") {
+        mgNum = 2;
+      };
+      const addEmployee = `INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`;
 
-updateEmployeeRole();
+      connect.query(addEmployee, [firstName, lastName, role, mgNum], function (err, results) {
+        if (err) throw err;
+        console.log("Employee added successfully!");
+        displayMenu();
+      })
+    });
+    })
+};
 
-viewAllDepartments();
+function updateEmployeeRole() {
+
+};
+
+function viewAllDepartments() {
+
+};
 
 questions();
