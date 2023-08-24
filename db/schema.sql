@@ -1,3 +1,8 @@
+DROP DATABASE IF EXISTS tracker_db;
+CREATE DATABASE tracker_db;
+
+USE tracker_db;
+
 -- department table
 CREATE TABLE department (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -13,7 +18,7 @@ CREATE TABLE roles (
   REFERENCES department(id)
   ON DELETE CASCADE
 );
---employees table
+
 CREATE TABLE employees (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   first_name VARCHAR(30) NOT NULL,

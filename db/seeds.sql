@@ -14,7 +14,7 @@ VALUES  ('Sales Lead', '180000', 1),
         ('Accountant', '185000', 3),
         ('Legal Team Lead', '350000', 4),
         ('Lawyer', '290000', 4);
--- information into the employee table
+-- info into the employee table
 INSERT INTO employees (first_name, last_name, role_id, manager_id)
 VALUES  ('Lebron', 'James', 1, NULL),
         ('Dwayne', 'Wade', 2, NULL),
